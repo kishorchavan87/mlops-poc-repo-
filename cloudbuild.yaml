@@ -1,0 +1,14 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build','-t','${_REGION}-docker.pkg.dev/${PROJECT_ID}/my-docker-repo/etl:${SHORT_SHA}','./etl']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push','${_REGION}-docker.pkg.dev/${PROJECT_ID}/my-docker-repo/etl:${SHORT_SHA}']
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build','-t','${_REGION}-docker.pkg.dev/${PROJECT_ID}/my-docker-repo/train:${SHORT_SHA}','./train']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push','${_REGION}-docker.pkg.dev/${PROJECT_ID}/my-docker-repo/train:${SHORT_SHA}']
+
+images:
+- '${_REGION}-docker.pkg.dev/${PROJECT_ID}/my-docker-repo/etl:${SHORT_SHA}'
+- '${_REGION}-docker.pkg.dev/${PROJECT_ID}/my-docker-repo/train:${SHORT_SHA}'
